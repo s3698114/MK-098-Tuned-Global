@@ -7,13 +7,14 @@ const https = require("https");
 //For optimization
 const { time, timeEnd } = require("console");
 const fs = require("fs");
+const FormData = require("form-data");
 
 const app = express();
 
 //Environment Variables, plug these in lambda env
 const PORT = 3000;
 const API_TOKEN = "7bbf8deb3c0335fcd7666d51dd951463";
-const ROOT_ID = "532583";
+const ROOT_ID = "533735";
 
 //The below enable express to receive json in request
 app.use(bodyParser.json());
@@ -50,17 +51,21 @@ app.post("/", async (req, res) => {
   var masterJsonUrl = false;
   try {
     masterJsonUrl = await getMasterJsonExportUrl();
-    if (!masterJsonUrl) throw "Didn't download";
+    if (!masterJsonUrl) throw "Didn't find file URL";
   } catch (err) {
     console.log("Couldn't download file: " + err);
     return;
   }
+  var exportedFile = false;
   try {
-    downloadJsonExport = await downloadJsonExport(masterJsonUrl);
+    exportedFile = await downloadJsonExport(masterJsonUrl);
+    if (!exportedFile) throw "Didn't Download";
+    console.log(exportedFile);
   } catch (err) {
     console.error("Couldn't download the Master Json File:" + err);
     return;
   }
+  uploadToProjectsHandler(projects);
 });
 
 app.listen(PORT, () => {
@@ -126,7 +131,6 @@ async function updateProjectsFromMaster(projects) {
   if (projectsToSync.length == 0) throw "Projects to sync is empty";
   return projectsToSync;
 }
-async function updateProjectFromMaster(project) {}
 async function downloadJsonExport(url) {
   promiseRequest = new Promise(function (resolve, reject) {
     const file = fs.createWriteStream("exports/export.json");
@@ -138,6 +142,7 @@ async function downloadJsonExport(url) {
         file.close();
         console.log("Download Completed");
         resolve(true);
+        return;
       });
     });
   });
@@ -191,8 +196,97 @@ async function getMasterJsonExportUrl() {
   }).catch((err) => console.log("Error inside promise: " + err));
   return promiseRequest;
 }
-async function updateProjects(projects) {}
+function uploadToProjectsHandler(projects) {
+  var form = new FormData();
+  console.log(projects[0]);
+  form.append("api_token", API_TOKEN);
+  form.append("id", projects[0]);
+  form.append("updating", "terms");
+  form.append(
+    "file",
+    fs.createReadStream("/home/jt/Documents/RMIT/ProgrammingFinal/export.json")
+  );
+  var payload = "";
+  var request = https.request(
+    {
+      method: "post",
+      host: "api.poeditor.com",
+      path: "/v2/projects/upload",
+      headers: form.getHeaders(),
+    },
+    (res) => {
+      res
+        .on("data", function (res) {
+          payload += res;
+        })
+        .on("end", function (res) {
+          console.log(payload);
+        });
+    }
+  );
+  form.pipe(request);
+  request.on("response", function (res) {
+    console.log(res.statusCode);
+    request.end();
+  });
+
+  // promiseRequest;
+  // }
+}
 //TEST CURL REQUEST
 // curl -X POST http://localhost:3000 -H 'Content-Type: application/json' -d '{ "payload": {"event": { "name": "new_terms.added" }, "project": { "id": 532583, "name": "Project Root", "public": 0, "open": 0, "created": "2022-05-13T00:24:37+0000" } } }'
 //
 // curl -X POST https://api.poeditor.com/v2/projects/upload -F api_token="7bbf8deb3c0335fcd7666d51dd951463" -F id="7717" -F updating="terms"}"
+
+// var payload = "";
+// const postData =
+//   "api_token=" +
+//   API_TOKEN +
+//   "&id=" +
+//   project +
+//   "&updating=terms&file=export.json";
+// console.log(postData);
+// const options = {
+//   hostname: "api.poeditor.com",
+
+//   path: "/v2/projects/upload",
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/x-www-form-urlencoded",
+//     "Content-Length": postData.length,
+//   },
+// };
+
+// const req = https.request(options, (res) => {
+//   // console.log("statusCode:", res.statusCode);
+//   // console.log("headers:", res.headers);
+
+//   res
+//     .on("data", (d) => {
+//       payload += d;
+//     })
+//     .on("end", () => {
+//       // payload = JSON.parse(payload[]);
+//       //If payload is successful it returns resolves promise, if not, it rejects. If error, rejects.
+//       try {
+//         payload = JSON.parse(payload);
+//         if (payload.response.status == "success") {
+//           resolve(payload.result.url);
+//         } else {
+//           reject(
+//             "Got status code Error in Response\t" +
+//               JSON.stringify(payload.response)
+//           );
+//         }
+//       } catch (err) {
+//         console.error("Failed Retrieving Projects:\t" + err);
+//         reject("Failed retrieving Project");
+//       }
+//     });
+// });
+
+// req.on("error", (e) => {
+//   console.error(e);
+// });
+// req.write(postData);
+// req.end();

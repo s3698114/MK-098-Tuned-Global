@@ -1,224 +1,88 @@
 [
     {
-        "term": "Test",
-        "definition": null,
-        "context": "",
+        "term": "accept_gdpr_button",
+        "definition": "Accept",
+        "context": "Accept",
+        "term_plural": "",
+        "reference": "",
+        "comment": "TEST"
+    },
+    {
+        "term": "accept_terms_and_conditions_button",
+        "definition": "I Agree",
+        "context": "I Agree",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Logout",
-        "definition": null,
-        "context": "",
+        "term": "activity_title",
+        "definition": "Activity",
+        "context": "Activity",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Login",
-        "definition": null,
-        "context": "",
+        "term": "adv_search_button",
+        "definition": "Search",
+        "context": "Search",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Skip song",
-        "definition": null,
-        "context": "",
+        "term": "alarm_dialog_cancel",
+        "definition": "Cancel",
+        "context": "Cancel",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Previous song",
-        "definition": null,
-        "context": "",
+        "term": "age_title",
+        "definition": "Age",
+        "context": "Age",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Skipped",
-        "definition": null,
-        "context": "",
+        "term": "artist_label",
+        "definition": "Artist",
+        "context": "Artist",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Previous",
-        "definition": null,
-        "context": "",
+        "term": "bottom_sheet_make_private_label",
+        "definition": "Make Private",
+        "context": "Make Private",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Event",
-        "definition": null,
-        "context": "",
+        "term": "bottom_sheet_make_public_label",
+        "definition": "Make Public",
+        "context": "Make Public",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Term",
-        "definition": null,
-        "context": "",
+        "term": "bottom_sheet_share_label",
+        "definition": "Share",
+        "context": "Share",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "Add",
+        "term": "something_test",
         "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Save",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Cancel",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Search",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Context",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Tell",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Select",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "New",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Project",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Movie",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Dashboard",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Hour",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Shell",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Ken",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Solar",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Cool",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Regent",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Terminology",
-        "definition": null,
-        "context": "",
-        "term_plural": "",
-        "reference": "",
-        "comment": ""
-    },
-    {
-        "term": "Date",
-        "definition": null,
-        "context": "",
+        "context": "Something",
         "term_plural": "",
         "reference": "",
         "comment": ""
