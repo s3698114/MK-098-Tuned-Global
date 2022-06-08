@@ -9,6 +9,8 @@ const { time, timeEnd } = require("console");
 const fs = require("fs");
 const FormData = require("form-data");
 const { request } = require("http");
+const { resolve } = require("path");
+const { setTimeout } = require("timers/promises");
 
 const app = express();
 
@@ -34,7 +36,6 @@ app.post("/", async (req, res) => {
     // var payload = JSON.parse(req.body.payload)
 
     var payload = req.body.payload;
-    console.log(payload);
   } catch (err) {
     console.log("Object not a payload or not JSON:\t" + err);
     return;
@@ -42,6 +43,7 @@ app.post("/", async (req, res) => {
   var projects;
   try {
     if (payload.event.name == "new_terms.added") {
+      console.log("Event new_terms.added true, comencing update process:");
       const projectPayload = await getProjectsToSync();
       projects = await updateProjectsFromMaster(projectPayload.projects);
     }
@@ -61,12 +63,12 @@ app.post("/", async (req, res) => {
   try {
     exportedFile = await downloadJsonExport(masterJsonUrl);
     if (!exportedFile) throw "Didn't Download";
-    console.log(exportedFile);
   } catch (err) {
     console.error("Couldn't download the Master Json File:" + err);
     return;
   }
-  uploadToProjectsHandler(projects);
+  await uploadToProjectsHandler(projects);
+  console.log("Finished program");
 });
 
 app.listen(PORT, () => {
@@ -90,9 +92,6 @@ async function getProjectsToSync() {
   };
   const promiseRequest = new Promise(function (resolve, reject) {
     const req = https.request(options, (res) => {
-      // console.log("statusCode:", res.statusCode);
-      // console.log("headers:", res.headers);
-
       res
         .on("data", (d) => {
           payload += d;
@@ -126,7 +125,7 @@ async function updateProjectsFromMaster(projects) {
   var projectsToSync = [];
   projects.forEach((element) => {
     if (element.id != ROOT_ID) {
-      projectsToSync.push(element.id);
+      projectsToSync.push(element);
     }
   });
   if (projectsToSync.length == 0) throw "Projects to sync is empty";
@@ -141,7 +140,7 @@ async function downloadJsonExport(url) {
       // after download completed close filestream
       file.on("finish", () => {
         file.close();
-        console.log("Download Completed");
+        console.log("Downloaded JSON from Master Successfully");
         resolve(true);
         return;
       });
@@ -165,9 +164,6 @@ async function getMasterJsonExportUrl() {
   };
   const promiseRequest = new Promise(function (resolve, reject) {
     const req = https.request(options, (res) => {
-      // console.log("statusCode:", res.statusCode);
-      // console.log("headers:", res.headers);
-
       res
         .on("data", (d) => {
           payload += d;
@@ -197,102 +193,65 @@ async function getMasterJsonExportUrl() {
   }).catch((err) => console.log("Error inside promise: " + err));
   return promiseRequest;
 }
-function uploadToProjectsHandler(projects) {
-  var form = new FormData();
-  console.log(projects[0]);
-  form.append("api_token", API_TOKEN);
-  form.append("id", projects[0]);
-  form.append("updating", "terms");
-  form.append("file", fs.createReadStream("exports/export.json"));
-  var payload = "";
-  var request = https.request(
-    {
-      method: "post",
-      host: "api.poeditor.com",
-      path: "/v2/projects/upload",
-      headers: form.getHeaders(),
-    },
-    (res) => {
-      res
-        .on("data", function (res) {
-          payload += res;
-        })
-        .on("response", function (res) {
-          console.log(res.statusCode);
-        })
-        .on("end", function (res) {
-          console.log(payload);
-          try {
-            payload = JSON.parse(payload);
-            console.log(payload);
-            if (payload.respons.status == "success");
-          } catch (error) {}
-        })
-        .on("error", (e) => {
-          console.error(e);
-        });
-      request.end();
-    }
-  );
-  form.pipe(request);
-
-  // promiseRequest;
-  // }
+async function uploadToProjectsHandler(projects) {
+  for (project of projects) {
+    console.log("Updating project: " + project.name + "\n ID: " + project.id);
+    payload = "";
+    //FormData is needed since POEditor upload API needs multipart/form-data
+    var form = new FormData();
+    form.append("api_token", API_TOKEN);
+    form.append("id", project.id);
+    form.append("updating", "terms");
+    form.append("file", fs.createReadStream("exports/export.json"));
+    var payload = "";
+    promiseRequest = new Promise(function (resolve, reject) {
+      var request = https.request(
+        {
+          method: "post",
+          host: "api.poeditor.com",
+          path: "/v2/projects/upload",
+          headers: form.getHeaders(),
+        },
+        (res) => {
+          res
+            .on("data", function (res) {
+              payload += res;
+            })
+            .on("end", function (res) {
+              try {
+                payload = JSON.parse(payload);
+                if (payload.response.status == "success") {
+                  resolve(true);
+                } else {
+                  throw (
+                    "Failed Updating: " +
+                    project.name +
+                    "\n ID: " +
+                    project.id +
+                    "\n  Because: " +
+                    payload.response.message
+                  );
+                }
+              } catch (error) {
+                reject(error);
+              }
+            })
+            .on("error", (e) => {
+              console.error(e);
+            });
+          request.end();
+        }
+      );
+      form.pipe(request);
+    }).catch((err) => {
+      console.log("Error in updating promise: " + err);
+    });
+    await promiseRequest;
+    await setTimeout(30000);
+  }
+  return;
 }
 //TEST CURL REQUEST
 // curl -X POST http://localhost:3000 -H 'Content-Type: application/json' -d '{ "payload": {"event": { "name": "new_terms.added" }, "project": { "id": 532583, "name": "Project Root", "public": 0, "open": 0, "created": "2022-05-13T00:24:37+0000" } } }'
 //
 // curl -X POST https://api.poeditor.com/v2/projects/upload -F api_token="7bbf8deb3c0335fcd7666d51dd951463" -F id="7717" -F updating="terms"}"
-
-// var payload = "";
-// const postData =
-//   "api_token=" +
-//   API_TOKEN +
-//   "&id=" +
-//   project +
-//   "&updating=terms&file=export.json";
-// console.log(postData);
-// const options = {
-//   hostname: "api.poeditor.com",
-
-//   path: "/v2/projects/upload",
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/x-www-form-urlencoded",
-//     "Content-Length": postData.length,
-//   },
-// };
-
-// const req = https.request(options, (res) => {
-//   // console.log("statusCode:", res.statusCode);
-//   // console.log("headers:", res.headers);
-
-//   res
-//     .on("data", (d) => {
-//       payload += d;
-//     })
-//     .on("end", () => {
-//       // payload = JSON.parse(payload[]);
-//       //If payload is successful it returns resolves promise, if not, it rejects. If error, rejects.
-//       try {
-//         payload = JSON.parse(payload);
-//         if (payload.response.status == "success") {
-//           resolve(payload.result.url);
-//         } else {
-//           reject(
-//             "Got status code Error in Response\t" +
-//               JSON.stringify(payload.response)
-//           );
-//         }
-//       } catch (err) {
-//         console.error("Failed Retrieving Projects:\t" + err);
-//         reject("Failed retrieving Project");
-//       }
-//     });
-// });
-
-// req.on("error", (e) => {
-//   console.error(e);
-// });
-// req.write(postData);
-// req.end();

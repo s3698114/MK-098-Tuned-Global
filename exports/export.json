@@ -80,17 +80,17 @@
         "comment": ""
     },
     {
-        "term": "something_test",
+        "term": "push_test",
         "definition": null,
-        "context": "Something",
+        "context": "",
         "term_plural": "",
         "reference": "",
         "comment": ""
     },
     {
-        "term": "push_test",
+        "term": "test_term",
         "definition": null,
-        "context": "",
+        "context": "Something",
         "term_plural": "",
         "reference": "",
         "comment": ""
