@@ -8,6 +8,7 @@ const https = require("https");
 const { time, timeEnd } = require("console");
 const fs = require("fs");
 const FormData = require("form-data");
+const { request } = require("http");
 
 const app = express();
 
@@ -202,10 +203,7 @@ function uploadToProjectsHandler(projects) {
   form.append("api_token", API_TOKEN);
   form.append("id", projects[0]);
   form.append("updating", "terms");
-  form.append(
-    "file",
-    fs.createReadStream("/home/jt/Documents/RMIT/ProgrammingFinal/export.json")
-  );
+  form.append("file", fs.createReadStream("exports/export.json"));
   var payload = "";
   var request = https.request(
     {
@@ -219,16 +217,24 @@ function uploadToProjectsHandler(projects) {
         .on("data", function (res) {
           payload += res;
         })
+        .on("response", function (res) {
+          console.log(res.statusCode);
+        })
         .on("end", function (res) {
           console.log(payload);
+          try {
+            payload = JSON.parse(payload);
+            console.log(payload);
+            if (payload.respons.status == "success");
+          } catch (error) {}
+        })
+        .on("error", (e) => {
+          console.error(e);
         });
+      request.end();
     }
   );
   form.pipe(request);
-  request.on("response", function (res) {
-    console.log(res.statusCode);
-    request.end();
-  });
 
   // promiseRequest;
   // }
