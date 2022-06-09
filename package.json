@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "watch": "nodemon app.js --ignore export.json"
+    "watch": "nodemon app.js --ignore exports/ --ignore projects/"
   },
   "dependencies": {
     "body-parser": "^1.20.0",

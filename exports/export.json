@@ -89,9 +89,12 @@
     },
     {
         "term": "test_term",
-        "definition": null,
+        "definition": {
+            "one": "test",
+            "other": ""
+        },
         "context": "Something",
-        "term_plural": "",
+        "term_plural": "tests",
         "reference": "",
         "comment": ""
     }
