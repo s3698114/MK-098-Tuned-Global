@@ -31,13 +31,18 @@ and synchronise that with the clients by adding the new terms onto the client pr
 
 In order to run the project locally: `Note: You must actively have an account with [POEditor](https://poeditor.com) as the API was written to handle requests from to run project. Also add at least one new term.`
 
+Head to `home>account>integration>callbacks` POEditor.
+
+Email: `mk098poeditor@mail.com`
+Password: `tunedglobal123!`s
+
 1. Make sure to install node on your machine
 2. Run the commented out curl located in app.js line 346. `NB: This is an example request, you can use your own project details.`
    `curl -X POST http://localhost:3000 -H 'Content-Type: application/json' -d '{ "payload": {"event": { "name": "new_terms.added" }, "project": { "id": 532583, "name": "Project Root", "public": 0, "open": 0, "created": "2022-05-13T00:24:37+0000" } } }`
 
 ## Configurations
 
-Head to `home>account>integration>callbacks` POEditor.
+We have created a default account for you below
 
 | Project | TunedTranslationMasters              |
 | ------- | ------------------------------------ |
