@@ -34,7 +34,7 @@ In order to run the project locally: `Note: You must actively have an account wi
 Head to `home>account>integration>callbacks` POEditor.
 
 Email: `mk098poeditor@mail.com`
-Password: `tunedglobal123!`s
+Password: `tunedglobal123!`
 
 1. Make sure to install node on your machine
 2. Run the commented out curl located in app.js line 346. `NB: This is an example request, you can use your own project details.`
