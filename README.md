@@ -39,9 +39,10 @@ In order to run the project locally: `Note: You must actively have an account wi
 
 Head to `home>account>integration>callbacks` POEditor.
 
-| Project | TunedTranslationMasters |
-| Event | New Terms |
-| URL | (url-where-terms-should-be-added-to) |
+| Project | TunedTranslationMasters              |
+| ------- | ------------------------------------ |
+| Event   | New Terms                            |
+| URL     | (url-where-terms-should-be-added-to) |
 
 TunedTranslationMaster (Multi-tiered Master Project) is the main project terms are added to. Once terms are added, they are synchronised to other projects. To test it first, you can use the URL (i.e. localhost:8000) to test on a local development before integrating it with a commercial website.
 
@@ -50,3 +51,17 @@ Whenever an `event` is triggered by a `New Term` added:
 1. The `getProjectsToSync` sends a request to the list `/v2/projects/list` that returns all the projects that the admin has access to.
 2. Then you want to retrieve the JSON from the master project using `getMasterJsonExportUrl` to cross-reference projects that need new terms added. If terms don't exist in child project, they are added
 3. You can find the exported lists in `MK-098-TunedGlobal/projects/` which can be exported to devices like Android.
+
+# Contributions
+
+In order to commit to this repository, please contact Naufal (s3698114@student.rmit.edu.au) to be added as a collaborator and clone changes
+
+# Standards
+
+When working on features, please follow the below branching standards
+
+| initials | project                                   | description                            |
+| -------- | ----------------------------------------- | -------------------------------------- |
+| ck       | mk-100 (100 is the ticket number on Jira) | purpose of branch. Try keep it concise |
+
+Example: `ck-mk-100-add-feature`
