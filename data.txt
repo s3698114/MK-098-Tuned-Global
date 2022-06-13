@@ -1,0 +1,1 @@
+The application does not use any DB's. We used POEditor to store terms and translations, which is done natively through their WebApp.

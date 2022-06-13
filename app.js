@@ -205,6 +205,7 @@ async function uploadToProjectsHandler(projects) {
     form.append("id", project.id);
     form.append("updating", "terms_translations");
     form.append("language", "en");
+    form.append("overwrite", "1");
     form.append("file", fs.createReadStream("exports/export.json"));
     var payload = "";
     promiseRequest = new Promise(function (resolve, reject) {

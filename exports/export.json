@@ -93,8 +93,30 @@
             "one": "test",
             "other": ""
         },
-        "context": "Something",
+        "context": "Test",
         "term_plural": "tests",
+        "reference": "",
+        "comment": ""
+    },
+    {
+        "term": "test_demo",
+        "definition": {
+            "one": "Test demo updated",
+            "other": ""
+        },
+        "context": "Test for the demo",
+        "term_plural": "test demosss",
+        "reference": "",
+        "comment": ""
+    },
+    {
+        "term": "demo_assignment_test",
+        "definition": {
+            "one": "english translation",
+            "other": ""
+        },
+        "context": "",
+        "term_plural": "english translations",
         "reference": "",
         "comment": ""
     }
