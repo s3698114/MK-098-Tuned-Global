@@ -6,6 +6,7 @@
 - About
 - Installation
 - Configuration
+- Credentials
 - Contribution
 - Standards
 
@@ -56,6 +57,11 @@ Whenever an `event` is triggered by a `New Term` added:
 1. The `getProjectsToSync` sends a request to the list `/v2/projects/list` that returns all the projects that the admin has access to.
 2. Then you want to retrieve the JSON from the master project using `getMasterJsonExportUrl` to cross-reference projects that need new terms added. If terms don't exist in child project, they are added
 3. You can find the exported lists in `MK-098-TunedGlobal/projects/` which can be exported to devices like Android.
+
+## Credentials
+
+email: mk098poeditor@mail.com
+password: tunedglobal123!
 
 # Contributions
 
