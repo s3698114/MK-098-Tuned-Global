@@ -16,7 +16,7 @@ const app = express();
 
 //Environment Variables, plug these in lambda env
 const PORT = 3000;
-const API_TOKEN = "7bbf8deb3c0335fcd7666d51dd951463";
+const API_TOKEN = "88b1bd0364acb617626ef991ed7a83c2";
 const ROOT_ID = "533735";
 
 //The below enable express to receive json in request
